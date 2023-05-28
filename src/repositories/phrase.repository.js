@@ -47,15 +47,13 @@ class PhraseRepository {
       this.db.get('SELECT * FROM phrases WHERE id = ?', phraseId, (err, row) => {
         if (err) {
           reject(err);
-        } else if(!row ){
-          reject({ message: 'phrase não encontrada'});
         } else {
           resolve(row);
         }
-      });
-      
+      }); 
     });
   }
+
   async listByPhrase({ phrase }) {
     return new Promise((resolve, reject) => {
 
@@ -70,9 +68,9 @@ class PhraseRepository {
     });
   }
 
-  updateById(phrase , phraseId){
+  async update({ phrase , phraseId }){
     return new Promise((resolve , reject) => {
-      this.db.update('SELECT phrases SET name = "?" WHERE id = ?', phrase , phraseId, (err , row) => {
+      this.db.run('UPDATE phrases SET phrase = ? WHERE "id" = ?',[ phrase , phraseId ] , (err , row) => {
         if (err) {
           reject(err);
         } else {
@@ -82,9 +80,9 @@ class PhraseRepository {
     })
   }
   
-  deleteById(phraseId){
+  async delete({phraseId}){
     return new Promise((resolve , reject) => {
-      this.db.delete('DELETE FROM phrases WHERE id = ?' , phraseId, (err , row) => {
+      this.db.run('DELETE FROM phrases WHERE id = ?' , phraseId, (err , row) => {
 
         if (err) {
           reject(err);

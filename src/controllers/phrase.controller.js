@@ -2,10 +2,12 @@ import PhraseService from '../services/phrase.service.js';
 class PhraseController {
   
  async create(request, response) {
-    const { phrase } = request.body;
-    try {
+   try {
+      const { phrase } = request.body;
       await PhraseService.create({ phrase });
-      return response.status(204).send();
+
+      return response.status(201).send();
+
     } catch (error) {
       return response.status(404).json({ message: error.message });
     }
@@ -24,7 +26,7 @@ class PhraseController {
   async listById(request, response) {
    try {
     const result = await PhraseService.listById({
-      fraseId: request.params.id
+      phraseId: request.params.id
     });
 
     return response.json(result);
@@ -33,29 +35,32 @@ class PhraseController {
    }
   }
 
-  updateById(request, response){
-    const result = PhraseService.update({
-      phraseId: request.params.id,
-      phrase: request.body.phrase,
-    })
+  async updateById(request, response){
+    try {
+      const {phrase} = request.body
+      const {id: phraseId} = request.params
 
-    if(result?.isError) {
-      return response.status(400).json({ message: result.message });
+      await PhraseService.update({phrase , phraseId})
+      return response.status(204).send()
+
+    } catch (error) {
+      return response.status(400).json({message: error.message})
     }
-    // 204 não envia nada para a response
-    return response.status(204).send()
   }
 
-  deleteById(request, response) {
-    const result = PhraseService.delete({
-      phraseId: request.params.id
-    });
+   async deleteById(request, response) {
 
-    if(result?.isError) {
-      return response.status(400).json({ message: result.message });
+    try {
+       await PhraseService.deleteById({
+        phraseId: request.params.id
+      });
+      
+      return response.status(204).send()
+
+    } catch (error) {
+      return response.status(400).json({ message: error.message });
+      
     }
-
-    return response.status(204).send()
   }
 }
 
