@@ -3,6 +3,7 @@ import MotivationController from "../controllers/motivation.controller";
 
 const routes = Router();
 
-routes.listMotivation('/' , MotivationController.list)
+routes.post('/', MotivationController.create)
+routes.get('/' , MotivationController.list)
 
 export {routes as motivation}
