@@ -2,18 +2,18 @@
 import PhraseRepository from '../repositories/phrase.repository.js'
 
 class PhraseService {
-  async create({ phrase }) {
+  async create({ phrase , priority }) {
     try {
-      const phraseEncontrada = await PhraseRepository.listByPhrase({ phrase })
+      const phraseFound = await PhraseRepository.listByPhrase({ phrase })
       
-      if(phraseEncontrada) {
+      if(phraseFound) {
         throw new Error('Frase já existe!');
       }
     } catch (error) {
       throw error
     }
 
-    return await PhraseRepository.create({ phrase })
+    return await PhraseRepository.create({ phrase , priority})
   }
 
   async list() {
@@ -41,19 +41,19 @@ class PhraseService {
    }
   }
 
-  async update({ phrases , phraseId }) {
-   try {
-    const exitPhrases = await PhraseRepository.listById({ phraseId })
+  async update({ phrase, phraseId }) {
+    try {
+      const phraseExist = await PhraseRepository.listById({ phraseId });
 
-    if(!exitPhrases){
-       throw new Error('frase não encontrado')
+      if(!phraseExist) {
+        throw new Error('phrase não encontrada')
+      }
+      
+      return await PhraseRepository.update({ phrase, phraseId })
+    } catch (error) {
+      throw error
     }
-    
-    return await PhraseRepository.update({ phrases , phraseId })
 
-   } catch (error) {
-     throw error
-   }
   }
 
 
