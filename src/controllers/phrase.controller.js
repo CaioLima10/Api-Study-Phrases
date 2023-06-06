@@ -1,10 +1,10 @@
 import PhraseService from '../services/phrase.service.js';
 class PhraseController {
   
- async create(request, response) {
+async create(request, response) {
    try {
-      const { phrase } = request.body;
-      await PhraseService.create({ phrase });
+      const { phrase , priority } = request.body;
+      await PhraseService.create({ phrase , priority });
 
       return response.status(201).send();
 
@@ -18,9 +18,9 @@ class PhraseController {
       const result = await PhraseService.list();
   
       return response.json(result);
-     } catch (error) {
+    } catch (error) {
       return response.status(404).json({ message: error.message });
-     }
+    }
   }  
 
   async listById(request, response) {
@@ -35,23 +35,22 @@ class PhraseController {
    }
   }
 
-  async updateById(request, response){
+  async updateById(request, response) {
     try {
-      const {phrase} = request.body
-      const {id: phraseId} = request.params
+      const { phrase } = request.body;
+      const { id: phraseId } = request.params;
 
-      await PhraseService.update({phrase , phraseId})
+      await PhraseService.update({ phrase, phraseId });
       return response.status(204).send()
-
     } catch (error) {
-      return response.status(400).json({message: error.message})
+      return response.status(400).json({ message: error.message });
     }
   }
 
-   async deleteById(request, response) {
+  async deleteById(request, response) {
 
     try {
-       await PhraseService.deleteById({
+      await PhraseService.deleteById({
         phraseId: request.params.id
       });
       
