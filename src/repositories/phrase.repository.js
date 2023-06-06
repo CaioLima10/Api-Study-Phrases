@@ -1,24 +1,22 @@
 import sqlite3 from 'sqlite3';
 import { randomUUID } from 'crypto';
-import { fileURLToPath } from 'url';
 import path from 'path';
 
 
-const __filename = fileURLToPath(import.meta.url);
+const dbPath = path.resolve(new URL (import.meta.url).pathname, '..' , 'phrases.db');
 
-const dbPath = path.resolve(__filename ,'..', 'phrases.db')
 
 class PhraseRepository {
   constructor() {
     this.db = new sqlite3.Database(dbPath);
   }
 
-  async create({ phrase }) {
+  async create({ phrase, priority }) {
     return new Promise((resolve , reject) => {
 
       const id = randomUUID();
 
-      this.db.run('INSERT INTO phrases VALUES(?, ?)', [id, phrase], (err) => {
+      this.db.run('INSERT INTO phrases VALUES(?, ?, ?)', [ id , phrase, priority ], (err) => {
         if (err) {
           reject(err);
         } else {
@@ -68,11 +66,11 @@ class PhraseRepository {
     });
   }
 
-  async update({ phrase , phraseId }){
-    return new Promise((resolve , reject) => {
-      this.db.run('UPDATE phrases SET phrase = ? WHERE "id" = ?',[ phrase , phraseId ] , (err , row) => {
+  async update({ phrase, phraseId }) {
+    return new Promise((resolve, reject ) => {
+      this.db.run('UPDATE phrases SET phrase = ? WHERE "id"=?', [phrase, phraseId], (err, row) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
           resolve(row);
         }
