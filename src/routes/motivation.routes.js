@@ -1,9 +1,11 @@
 import { Router } from "express";
-import MotivationController from "../controllers/motivation.controller";
+import phrasesMotivationControllers from "../controllers/phrasesMotivation.controllers";
+
+
 
 const routes = Router();
 
-routes.post('/', MotivationController.create)
-routes.get('/' , MotivationController.list)
+routes.post("/" , phrasesMotivationControllers.create)
 
-export {routes as motivation}
+
+export { routes as motivationRoutes };
