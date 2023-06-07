@@ -1,12 +1,10 @@
-import motivationServices from "../services/phrase.motivation.services";
-
-
-class MotivationControllers {
-
+import MotivationService from '../services/phrase.motivation.services'
+class MotivationController {
+  
 async create(request, response) {
-  try {
+   try {
       const { phraseMotivation } = request.body;
-      await motivationServices.create({ phraseMotivation });
+      await MotivationService.create({ phraseMotivation });
 
       return response.status(201).send();
 
@@ -14,17 +12,16 @@ async create(request, response) {
       return response.status(404).json({ message: error.message });
     }
   }
-  
-async list(_request, response) {
+
+  async list(_request, response) {
     try {
-      const result = await motivationServices.list();
+      const result = await phraseMotivation.list();
   
       return response.json(result);
     } catch (error) {
       return response.status(404).json({ message: error.message });
     }
-}  
-
+  }  
 }
 
-export default new MotivationControllers()
+export default new MotivationController();
