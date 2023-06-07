@@ -1,4 +1,3 @@
-
 import PhraseRepository from '../repositories/phrase.repository.js'
 
 class PhraseService {

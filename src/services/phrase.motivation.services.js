@@ -1,4 +1,4 @@
-import MotivationRepository from '../repositories/phrases.motivation.repository'
+import MotivationRepository from '../repositories/phrases.motivation.repository.js'
 
 class MotivationService{
     async create({ phraseMotivation }) {
@@ -8,16 +8,18 @@ class MotivationService{
           if(phraseMotivationFound) {
             throw new Error('Frase já existe!');
           }
+          return await MotivationRepository.create({ phraseMotivation })
+
           } catch (error) {
             throw error
           }
       
-        return await MotivationRepository.create({ phraseMotivation })
     }
 
     async list() {
         try {
-          return await MotivationRepository.list()
+          await MotivationRepository.list()
+
         } catch (error) {
           throw new Error(error.message)
         }
