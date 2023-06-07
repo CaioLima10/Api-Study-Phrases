@@ -24,15 +24,15 @@ async create(request, response) {
   }  
 
   async listById(request, response) {
-   try {
+    try {
     const result = await PhraseService.listById({
       phraseId: request.params.id
     });
 
     return response.json(result);
-   } catch (error) {
+    } catch (error) {
     return response.status(404).json({ message: error.message });
-   }
+    }
   }
 
   async updateById(request, response) {
