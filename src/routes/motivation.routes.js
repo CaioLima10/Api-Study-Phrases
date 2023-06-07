@@ -1,11 +1,12 @@
 import { Router } from "express";
-import phrasesMotivationControllers from "../controllers/phrasesMotivation.controllers";
 
-
+import MotivationControllers from '../controllers/phrasesMotivation.controllers.js'
+import { validateMotivationalMiddleware } from "../middlewares/phrases.motivation.middle.js";
 
 const routes = Router();
 
-routes.post("/" , phrasesMotivationControllers.create)
+routes.post("/" ,validateMotivationalMiddleware , MotivationControllers.create)
+routes.get("/", MotivationControllers.list)
 
 
-export { routes as motivationRoutes };
+export { routes as motivationPhrasesRoutes };
