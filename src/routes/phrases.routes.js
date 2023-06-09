@@ -10,5 +10,6 @@ routes.get('/', PhraseController.list);
 routes.get('/:id', PhraseController.listById);
 routes.put('/:id', validatePhraseMiddleware, PhraseController.updateById);
 routes.delete('/:id', authenticationMiddleware, PhraseController.deleteById);
+routes.get('/priority/:id', PhraseController.listByPriority)
 
 export { routes as phrasesRoutes };
