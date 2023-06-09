@@ -37,7 +37,7 @@ class MotivationalPhrasesRepository {
     })
   }
 
-  async sentenceAlreadyExists({ motivationPhrase }) {
+  async listByMotivationPhrase({ motivationPhrase }) {
     return new Promise((resolve, reject) => {
 
       this.db.get('SELECT * FROM motivationalPhrases WHERE phrase = ?', motivationPhrase, (err, row) => {

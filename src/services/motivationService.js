@@ -3,9 +3,9 @@ import MotivationalPhrasesRepository from '../repositories/motivationRepository.
 class MotivationalPhrasesService {
   async create({ motivationalPhrase }) {
     try {
-      const sentenceAlreadyExists = await MotivationalPhrasesRepository.sentenceAlreadyExists({ motivationalPhrase })
+      const existsPhraseMotivation = await MotivationalPhrasesRepository.listByMotivationPhrase({ motivationalPhrase })
       
-      if (sentenceAlreadyExists) {
+      if (existsPhraseMotivation) {
         throw new Error('Frase já existe')
       }      
       return await MotivationalPhrasesRepository.create({ motivationalPhrase })
