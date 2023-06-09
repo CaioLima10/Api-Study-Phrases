@@ -1,13 +1,17 @@
 import PhraseService from '../services/phrase.service.js';
 class PhraseController {
-  
-async create(request, response) {
+/**
+ *
+ * @param { { body: { phrase: string } } } request
+ * @param { { body: { phrase: string } } } response
+ * @returns { Promise<void> }
+ */
+ async create(request, response) {
    try {
-      const { phrase , priority } = request.body;
-      await PhraseService.create({ phrase , priority });
-
-      return response.status(201).send();
-
+      const { phrase, priority } = request.body;
+      await PhraseService.create({ phrase, priority });
+      
+      return response.status(204).send();
     } catch (error) {
       return response.status(404).json({ message: error.message });
     }
@@ -18,22 +22,34 @@ async create(request, response) {
       const result = await PhraseService.list();
   
       return response.json(result);
-    } catch (error) {
+     } catch (error) {
       return response.status(404).json({ message: error.message });
-    }
+     }
   }  
 
   async listById(request, response) {
-    try {
-    const result = await PhraseService.listById({
-      phraseId: request.params.id
-    });
+   try {
+      const result = await PhraseService.listById({
+        fraseId: request.params.id
+      });
 
-    return response.json(result);
+      return response.json(result);
     } catch (error) {
-    return response.status(404).json({ message: error.message });
+      return response.status(404).json({ message: error.message });
     }
   }
+
+  async listByPriority(request, response) {
+    try {
+     const result = await PhraseService.listByPriority({
+       priority: request.params.id
+     });
+ 
+     return response.json(result);
+    } catch (error) {
+     return response.status(404).json({ message: error.message });
+    }
+   }
 
   async updateById(request, response) {
     try {
@@ -48,17 +64,14 @@ async create(request, response) {
   }
 
   async deleteById(request, response) {
-
     try {
-      await PhraseService.deleteById({
+      await PhraseService.delete({
         phraseId: request.params.id
       });
-      
-      return response.status(204).send()
 
+      return response.status(204).send()
     } catch (error) {
       return response.status(400).json({ message: error.message });
-      
     }
   }
 }
