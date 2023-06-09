@@ -2,9 +2,7 @@ import sqlite3 from 'sqlite3';
 import { randomUUID } from 'crypto';
 import path from 'path';
 
-
-const dbPath = path.resolve(new URL (import.meta.url).pathname, '..' , 'phrases.db');
-
+const dbPath = path.resolve(new URL(import.meta.url).pathname, '../phrases.db');
 
 class PhraseRepository {
   constructor() {
@@ -16,7 +14,7 @@ class PhraseRepository {
 
       const id = randomUUID();
 
-      this.db.run('INSERT INTO phrases VALUES(?, ?, ?)', [ id , phrase, priority ], (err) => {
+      this.db.run('INSERT INTO phrases VALUES(?, ?, ?)', [id, phrase, priority], (err) => {
         if (err) {
           reject(err);
         } else {
@@ -27,6 +25,10 @@ class PhraseRepository {
     })
   }
 
+  /**
+   * 
+   * @returns {Promise<{id: string, phrase: string}[]>}
+   */
   async list() {
     return new Promise((resolve, reject) => {
       this.db.all('SELECT * FROM phrases', (err, rows) => {
@@ -39,20 +41,37 @@ class PhraseRepository {
     });
   }
 
+  /**
+   * 
+   * @param {*} param0 
+   * @returns { Promise<{id: string, phrase: string}>}
+   */
   async listById({ phraseId }) {
     return new Promise((resolve, reject) => {
-
       this.db.get('SELECT * FROM phrases WHERE id = ?', phraseId, (err, row) => {
         if (err) {
           reject(err);
-        } else {
+        }  else {
           resolve(row);
         }
-      }); 
+      });
+      
     });
   }
 
-  async listByPhrase({ phrase }) {
+  async listByPriority({ priority }) {
+    return new Promise((resolve, reject) => {
+      this.db.get('SELECT * FROM phrases WHERE priority = ?', priority, (err, row) => {
+        if (err) {
+          reject(err);
+        }  else {
+          resolve(row);
+        }
+      });
+      
+    });
+  }
+  async sentenceAlreadyExists({ phrase }) {
     return new Promise((resolve, reject) => {
 
       this.db.get('SELECT * FROM phrases WHERE phrase = ?', phrase, (err, row) => {
@@ -68,7 +87,7 @@ class PhraseRepository {
 
   async update({ phrase, phraseId }) {
     return new Promise((resolve, reject ) => {
-      this.db.run('UPDATE phrases SET phrase = ? WHERE "id"=?', [phrase, phraseId], (err, row) => {
+      this.db.run('UPDATE phrases SET phrase=? WHERE "id"=?', [phrase, phraseId], (err, row) => {
         if (err) {
           reject(err)
         } else {
@@ -77,16 +96,19 @@ class PhraseRepository {
       })
     })
   }
-  
-  async delete({phraseId}){
-    return new Promise((resolve , reject) => {
-      this.db.run('DELETE FROM phrases WHERE id = ?' , phraseId, (err , row) => {
 
-        if (err) {
-          reject(err);
-        } else {
-          resolve(row);
+  /**
+   * 
+   * @param {{ phraseId: string}} param0
+   */
+  async delete({ phraseId }) {
+    
+    return new Promise((resolve, reject ) => {
+      this.db.run('DELETE FROM phrases WHERE id = ?', phraseId, (err) => {
+        if(err) {
+          reject(err)
         }
+        resolve()
       })
     })
   }
