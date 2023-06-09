@@ -1,43 +1,50 @@
 import PhraseRepository from '../repositories/phrase.repository.js'
 
 class PhraseService {
-  async create({ phrase , priority }) {
-    try {
-      const phraseFound = await PhraseRepository.listByPhrase({ phrase })
-      
-      if(phraseFound) {
-        throw new Error('Frase já existe!');
-      }
-    } catch (error) {
-      throw error
+  async create({ phrase, priority }) {
+    const phraseAlreadyFound = await PhraseRepository.sentenceAlreadyExists({ phrase })
+  
+    if(phraseAlreadyFound) {
+      throw new Error('Frase já existe!');
     }
 
-    return await PhraseRepository.create({ phrase , priority})
+    return await PhraseRepository.create({ phrase, priority })
   }
 
   async list() {
     try {
-      return await PhraseRepository.list()
+      return await PhraseRepository.list();
     } catch (error) {
-      throw new Error(error.message)
+      throw error
+    }
+  }
+  
+  async listById({fraseId}) {
+    try {
+      const phraseExist = await PhraseRepository.listById({ phraseId: fraseId });
+
+      if(!phraseExist) {
+        throw new Error('phrase não encontrada')
+      }
+
+      return { phrase: phraseExist.phrase}
+    } catch (error) {
+      throw error
     }
   }
 
-  
-  async listById({ phraseId }) {
-   try {
-    const exitPhrase = await PhraseRepository.listById({ phraseId: phraseId })
+  async listByPriority({ priority }) {
+    try {
+      const phraseExist = await PhraseRepository.listByPriority({ priority });
 
-    if(!exitPhrase){
-      throw new Error('frase não encontrado')
+      if(!phraseExist) {
+        throw new Error('phrase não encontrada')
+      }
+
+      return { phrase: phraseExist}
+    } catch (error) {
+      throw error
     }
-
-    return {phrase: exitPhrase.phrase } 
-
-   } catch (error) {
-    throw error
-    
-   }
   }
 
   async update({ phrase, phraseId }) {
@@ -55,16 +62,15 @@ class PhraseService {
 
   }
 
-
- async deleteById({ phraseId }) {
+  async delete({ phraseId }) {
     try {
-    const exitPhrases = await PhraseRepository.listById({ phraseId })
+      const phraseExist = await PhraseRepository.listById({ phraseId });
 
-      if(!exitPhrases){
-        throw new Error('frase não encontrado')
-     }
-     
-      return await PhraseRepository.delete({ phraseId })
+      if(!phraseExist) {
+        throw new Error('phrase não encontrada')
+      }
+
+      return await PhraseRepository.delete({ phraseId});
     } catch (error) {
       throw error
     }
