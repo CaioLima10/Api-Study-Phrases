@@ -4,7 +4,7 @@ import { routes } from './routes/index.js';
 
 const app = express();
 app.use(bodyParser.json());
-app.use('/', routes)
+app.use('/', routes);
 
 const port = process.env.PORT || 3000;
 
