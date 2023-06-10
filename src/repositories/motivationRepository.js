@@ -24,7 +24,7 @@ class MotivationalPhrasesRepository {
   
     })
   }
-  
+
   async list() {
     return new Promise((resolve, reject) => {
       this.db.all('SELECT * FROM motivationPhrases', (err, rows) => {
@@ -40,7 +40,7 @@ class MotivationalPhrasesRepository {
   async listByMotivationPhrase({ motivationPhrase }) {
     return new Promise((resolve, reject) => {
 
-      this.db.get('SELECT * FROM motivationalPhrases WHERE phrase = ?', motivationPhrase, (err, row) => {
+      this.db.get('SELECT * FROM motivationPhrases WHERE phrase = ?', motivationPhrase, (err, row) => {
         if (err) {
           reject(err);
         } else {
