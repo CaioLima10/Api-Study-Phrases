@@ -1,11 +1,12 @@
-import MotivationalPhrasesService from '../services/motivationService.js';
+import MotivationPhrasesService from '../services/motivationService.js';
 
-class MotivationalPhrasesController {
+class MotivationPhrasesController {
+  
   async create(request, response) {
     try {
       const { motivationPhrase } = request.body;
-      await MotivationalPhrasesService.create({ motivationPhrase })
-
+      await MotivationPhrasesService.create({ motivationPhrase })
+      
       return response.status(204).send();
     } catch (error) {
       return response.status(404).json({ message: error.message });
@@ -14,7 +15,7 @@ class MotivationalPhrasesController {
 
   async list(_request, response) {
     try {
-      const result = await MotivationalPhrasesService.list();
+      const result = await MotivationPhrasesService.list();
   
       return response.json(result);
     } catch (error) {
@@ -23,4 +24,4 @@ class MotivationalPhrasesController {
   }
 }
 
-export default new MotivationalPhrasesController();
+export default new MotivationPhrasesController();
