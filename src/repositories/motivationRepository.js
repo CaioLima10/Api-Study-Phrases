@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 
 const dbPath = path.resolve(new URL(import.meta.url).pathname, '../phrasesMotivation.db');
 
-class MotivationalPhrasesRepository {
+class MotivationPhrasesRepository {
   constructor() {
     this.db = new sqlite3.Database(dbPath);
   }
@@ -53,4 +53,4 @@ class MotivationalPhrasesRepository {
   
 }
 
-export default new MotivationalPhrasesRepository();
+export default new MotivationPhrasesRepository();

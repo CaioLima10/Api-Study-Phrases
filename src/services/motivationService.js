@@ -1,14 +1,15 @@
-import MotivationalPhrasesRepository from '../repositories/motivationRepository.js'
+import MotivationPhrasesRepository from '../repositories/motivationRepository.js'
 
-class MotivationalPhrasesService {
+class MotivationPhrasesService {
   async create({ motivationalPhrase }) {
     try {
-      const existsPhraseMotivation = await MotivationalPhrasesRepository.listByMotivationPhrase({ motivationalPhrase })
-      
+      const existsPhraseMotivation = await MotivationPhrasesRepository.listByMotivationPhrase({ motivationalPhrase })
+
       if (existsPhraseMotivation) {
         throw new Error('Frase já existe')
-      }      
-      return await MotivationalPhrasesRepository.create({ motivationalPhrase })
+      }
+      return await MotivationPhrasesRepository.create({ motivationalPhrase })
+      
     } catch (error) {
       throw error
     }
@@ -16,13 +17,14 @@ class MotivationalPhrasesService {
 
   async list() {
     try {
-      const motivationalPhrases = await motivationalPhraseRepository.list()
+      const motivationalPhrases = await MotivationPhrasesRepository.list()
 
       return motivationalPhrases
+      
     } catch (error) {
       throw error
     }
   }
 }
 
-export default new MotivationalPhrasesService();
+export default new MotivationPhrasesService();
