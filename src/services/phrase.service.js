@@ -2,13 +2,17 @@ import PhraseRepository from '../repositories/phrase.repository.js'
 
 class PhraseService {
   async create({ phrase, priority }) {
-    const phraseAlreadyFound = await PhraseRepository.sentenceAlreadyExists({ phrase })
-  
-    if(phraseAlreadyFound) {
-      throw new Error('Frase já existe!');
-    }
+    try {
+      const phraseAlreadyFound = await PhraseRepository.listByPhrases({ phrase })
 
-    return await PhraseRepository.create({ phrase, priority })
+      if(phraseAlreadyFound) {
+        throw new Error('Frase já existe!');
+      }
+      return await PhraseRepository.create({ phrase, priority })
+      
+    } catch (error) {
+      throw error
+    }
   }
 
   async list() {
@@ -47,15 +51,18 @@ class PhraseService {
     }
   }
 
-  async update({ phrase, phraseId }) {
+  async update({ phraseId , phrase, priority }) {
+    
     try {
       const phraseExist = await PhraseRepository.listById({ phraseId });
+
 
       if(!phraseExist) {
         throw new Error('phrase não encontrada')
       }
       
-      return await PhraseRepository.update({ phrase, phraseId })
+      return await PhraseRepository.update({ phraseId , phrase, priority })
+
     } catch (error) {
       throw error
     }
