@@ -1,5 +1,2 @@
--- Active: 1686439331173@@127.0.0.1@3306
-
-CREATE TABLE motivationPhrases (id TEXT NOT NULL PRIMARY KEY, phrase TEXT );
-
--- DROP TABLE MotivationalPhrases
+-- Active: 1687270500456@@127.0.0.1@3306
+CREATE TABLE phrases (id TEXT NOT NULL, phrase TEXT NOT NULL, priority TEXT NOT NULL);
